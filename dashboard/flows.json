@@ -1,0 +1,38 @@
+[
+{
+"id":"tab1",
+"type":"tab",
+"label":"Smart Bin Dashboard"
+},
+{
+"id":"mqtt1",
+"type":"mqtt in",
+"z":"tab1",
+"name":"Bin Data",
+"topic":"smartbin/data",
+"broker":"broker1",
+"x":160,
+"y":120,
+"wires":[["json1"]]
+},
+{
+"id":"json1",
+"type":"json",
+"z":"tab1",
+"x":340,
+"y":120,
+"wires":[["debug1"]]
+},
+{
+"id":"debug1",
+"type":"debug",
+"z":"tab1",
+"name":"Bin Payload"
+},
+{
+"id":"broker1",
+"type":"mqtt-broker",
+"broker":"broker.hivemq.com",
+"port":"1883"
+}
+]
