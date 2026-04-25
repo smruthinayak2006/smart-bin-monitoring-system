@@ -1,282 +1,127 @@
 # Smart Waste Management System 🚮
 
-An IoT-based smart waste monitoring system using ESP32, ultrasonic sensing, MQTT telemetry, and dashboard monitoring to improve waste collection efficiency.
+A simple smart waste bin prototype built using Arduino and an ultrasonic sensor to monitor bin fill level and trigger alerts when the bin is getting full.
+
+## Problem
+Bins often overflow because there is no real-time indication of fill level.
+
+This prototype demonstrates how low-cost sensors can help monitor waste levels and alert authorities before overflow happens.
 
 ---
 
-# Problem Statement
-
-Traditional waste collection suffers from:
-
-- Overflowing bins
-- Inefficient collection routes
-- Lack of real-time monitoring
-- High operational costs
-- Delayed response to filled bins
-
-This project solves that through IoT-based monitoring and intelligent alerts.
+## Features
+- Fill level detection using ultrasonic sensor  
+- Green LED for normal state  
+- Red LED for warning state  
+- Buzzer alert for overflow  
+- Three-state monitoring logic:
+  - Normal
+  - Warning
+  - Overflow
 
 ---
 
-# Features
-
-## Current MVP
-✅ Fill-level monitoring  
-✅ Overflow alerts  
-✅ ESP32 telemetry over MQTT  
-✅ Real-time dashboard integration  
-✅ LED/Buzzer alerts
-
----
-
-## Planned Features
-- GPS-enabled smart bins
-- Route optimization for garbage trucks
-- Fill-level prediction
-- Citizen complaint reporting
-- Secure IoT communication (TLS MQTT)
+## Components Used
+- Arduino Uno  
+- HC-SR04 Ultrasonic Sensor  
+- 2 LEDs (Green and Red)  
+- Piezo Buzzer  
+- 220Ω Resistors  
+- Breadboard + Jumper Wires
 
 ---
 
-# System Architecture
+## Working Logic
+
+Distance-based monitoring:
 
 ```text
-Garbage Level
-↓
-Ultrasonic Sensor (HC-SR04)
-↓
-ESP32 Edge Node
-↓
-WiFi + MQTT
-↓
-Node-RED Dashboard
-↓
-Alerts / Monitoring
+> 20 cm   → Normal (Green LED)
+
+10–20 cm  → Warning (Red LED)
+
+< 10 cm   → Overflow (Red LED + Buzzer)
 ```
 
 ---
 
-# Hardware Components
+## Prototype Validation Results
 
-| Component | Purpose |
-|---------|---------|
-| ESP32 | Controller + IoT |
-| HC-SR04 | Fill-level detection |
-| LEDs | Status indicators |
-| Buzzer | Overflow alert |
-| Breadboard | Prototyping |
-
-Optional:
-- Neo-6M GPS
-- LoRa module
+### Normal State
+![Normal](images/bin-normal.png)
 
 ---
 
-# Fill Level Calculation
+### Warning State
+![Warning](images/bin-warning.png)
 
-Formula:
+---
+
+### Overflow Alert
+![Overflow](images/bin-overflow.png)
+
+---
+
+## Circuit Overview
 
 ```text
-Fill % = ((Bin Height - Measured Distance)
-/ Bin Height) × 100
+Ultrasonic Sensor
+   ↓
+Arduino Uno
+   ↓
+Status Alerts
+(LEDs + Buzzer)
 ```
-
-Example:
-
-Bin height = 30cm
-
-Measured distance:
-- 25cm → nearly empty
-- 10cm → half full
-- 3cm → almost full
 
 ---
 
-# Project Structure
+## Project Structure
 
 ```text
 smart-waste-management-iot/
-│
-├── README.md
-├── .gitignore
-│
-├── hardware/
-│   ├── circuit-diagram.png
-│   └── components-list.md
-│
 ├── firmware/
-│   ├── platformio.ini
-│   └── src/main.cpp
-│
-├── dashboard/
-│   └── flows.json
-│
-├── backend/
-│   ├── app.py
-│   └── requirements.txt
-│
-├── datasets/
-│   └── sample_fill_data.csv
-│
-└── docs/
-    └── threat-model.md
+├── hardware/
+├── images/
+├── docs/
+└── README.md
 ```
 
 ---
 
-# Firmware Logic
+## How It Works
+The ultrasonic sensor measures the distance from the sensor to the garbage level.
 
-Thresholds:
+Distance is used to determine whether the bin is:
+- Empty/Normal
+- Near Full
+- Overflowing
 
-```text
-<80%      NORMAL
-80-95%    FULL
->95%      OVERFLOW
-```
-
-Actions:
-- Green LED → normal
-- Red LED → full
-- Buzzer → overflow warning
+Alerts are triggered automatically based on threshold values.
 
 ---
 
-# MQTT Telemetry Example
-
-```json
-{
-  "bin_id":"BIN01",
-  "fill":82,
-  "status":"FULL"
-}
-```
-
-Topic:
-
-```text
-smartbin/data
-```
+## Future Improvements
+Planned upgrades:
+- IoT dashboard monitoring
+- Smart pickup alerts
+- Route optimization for collection vehicles
+- Fill-level prediction
 
 ---
 
-# Tech Stack
-
-## Embedded
-- C++
-- Arduino Framework
-- PlatformIO
-
-## Communication
-- WiFi
-- MQTT
-- PubSubClient
-
-## Dashboard
-- Node-RED
-
-## Backend
-- Python Flask
+## Tech Used
+- Arduino C/C++
+- Tinkercad Simulation
+- Git + GitHub
 
 ---
 
-# Setup
-
-## Clone Repo
-
-```bash
-git clone https://github.com/yourusername/smart-waste-management-iot.git
-cd smart-waste-management-iot
-```
+## Why I Built This
+This project was built as a small smart-city/IoT prototype to explore sensor-based automation and waste monitoring.
 
 ---
 
-## Firmware
-
-```bash
-cd firmware
-pio run
-```
-
----
-
-## Backend
-
-```bash
-cd backend
-pip install -r requirements.txt
-python app.py
-```
-
----
-
-# Security Considerations
-
-Threats considered:
-
-## Sensor Spoofing
-Mitigation:
-- Sensor sanity checks
-- Range validation
-
-## MQTT Tampering
-Mitigation:
-- Authenticated broker
-- TLS encryption (planned)
-
-## Device Cloning
-Mitigation:
-- Unique device IDs
-- Signed telemetry (future)
-
----
-
-# Future Enhancements
-
-- Predictive fill forecasting using ML
-- Vehicle route optimization
-- LoRaWAN deployment
-- Solar-powered autonomous bin nodes
-- Smart city integration
-
----
-
-# Scalability Vision
-
-Current:
-Single smart bin node
-
-Future:
-- Multi-bin fleet
-- City-wide deployment
-- Central monitoring system
-
----
-
-# Demo (Add later)
-Include:
-- Circuit photos
-- Tinkercad simulation
-- Dashboard screenshots
-- Demo video
-
----
-
-# Why This Project Matters
-
-This project combines:
-
-- IoT
-- Embedded Systems
-- Smart Cities
-- Cybersecurity
-- Data-driven optimization
-
-It is designed as both a portfolio project and scalable smart-city prototype.
-
----
-
-# Author
-Smruthi Nayak
-
+## Author
+Smruthi Nayak  
 BTech CSE (IoT)
 
