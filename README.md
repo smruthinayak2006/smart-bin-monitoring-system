@@ -1,6 +1,6 @@
 # Smart Waste Management System 🚮
 
-A simple smart waste bin prototype built using Arduino and an ultrasonic sensor to monitor bin fill level and trigger alerts when the bin is getting full.
+A simple smart waste bin prototype built using Arduino and an ultrasonic sensor to monitor bin fill level and trigger alerts when the bin is getting full.IoT Prototype using Arduino + Ultrasonic Sensing.
 
 ## Problem
 Bins often overflow because there is no real-time indication of fill level.
@@ -113,6 +113,14 @@ Planned upgrades:
 - Arduino C/C++
 - Tinkercad Simulation
 - Git + GitHub
+
+---
+
+## Run in Tinkercad
+1. Open Tinkercad circuit
+2. Upload tinkercad_test.ino
+3. Start simulation
+4. Move object to change fill level
 
 ---
 
