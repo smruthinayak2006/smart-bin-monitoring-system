@@ -5,15 +5,6 @@ int green = 6;
 int red = 7;
 int buzzer = 8;
 
-float binHeight = 30.0;
-
-/*
-Hysteresis state:
-prevents LED/buzzer flickering
-around threshold.
-*/
-bool binFull = false;
-
 void setup()
 {
 Serial.begin(9600);
@@ -29,7 +20,7 @@ pinMode(buzzer,OUTPUT);
 void loop()
 {
 
-// Trigger ultrasonic pulse
+// Trigger sensor
 digitalWrite(trig,LOW);
 delayMicroseconds(2);
 
@@ -39,76 +30,66 @@ delayMicroseconds(10);
 digitalWrite(trig,LOW);
 
 
-// Read echo
+// Read distance
 long duration =
 pulseIn(echo,HIGH);
 
-
-// Distance in cm
-float distance =
-duration * 0.034 / 2;
+float distance=
+duration*0.034/2;
 
 
-// Fill percentage
-float fill =
-((binHeight-distance)/binHeight)*100;
-
-
-// Safety bounds
-if(fill<0)
-fill=0;
-
-if(fill>100)
-fill=100;
-
-
-// Print readings
+// Print reading
 Serial.print("Distance: ");
 Serial.print(distance);
-
-Serial.print(" cm   Fill: ");
-Serial.print(fill);
-
-Serial.println("%");
+Serial.println(" cm");
 
 
 
 /*
-HYSTERESIS LOGIC
-
-Trigger full at 80%
-Return normal only below 75%
+STATE 1
+Empty/Normal
 */
-
-if(fill>=80)
-{
-binFull=true;
-}
-
-if(fill<=75)
-{
-binFull=false;
-}
-
-
-
-// Device actions
-if(!binFull)
+if(distance > 20)
 {
 digitalWrite(green,HIGH);
 digitalWrite(red,LOW);
 
 noTone(buzzer);
+
+Serial.println("STATUS: NORMAL");
 }
 
+
+/*
+STATE 2
+Warning
+*/
+else if(distance > 10)
+{
+digitalWrite(green,LOW);
+digitalWrite(red,HIGH);
+
+noTone(buzzer);
+
+Serial.println("STATUS: WARNING");
+}
+
+
+/*
+STATE 3
+Overflow
+*/
 else
 {
 digitalWrite(green,LOW);
 digitalWrite(red,HIGH);
 
 tone(buzzer,1000);
+
+Serial.println("STATUS: OVERFLOW");
 }
 
+Serial.println("----------------");
 
 delay(1000);
 
