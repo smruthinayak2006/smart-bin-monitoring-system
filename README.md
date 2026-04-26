@@ -1,135 +1,222 @@
-# Smart Waste Management System 🚮
+# Smart Bin Monitoring System 🚮
 
-A simple smart waste bin prototype built using Arduino and an ultrasonic sensor to monitor bin fill level and trigger alerts when the bin is getting full.IoT Prototype using Arduino + Ultrasonic Sensing.
+An IoT and software prototype for monitoring waste bins, prioritizing pickups, predicting overflow, and visualizing bin status through a lightweight backend dashboard.
 
-## Problem
-Bins often overflow because there is no real-time indication of fill level.
-
-This prototype demonstrates how low-cost sensors can help monitor waste levels and alert authorities before overflow happens.
+Built as an embedded + backend smart-city prototype.
 
 ---
 
-## Features
-- Fill level detection using ultrasonic sensor  
-- Green LED for normal state  
-- Red LED for warning state  
-- Buzzer alert for overflow  
-- Three-state monitoring logic:
+## Problem
+
+Traditional waste collection is reactive:
+
+- Bins overflow before collection
+- Pickup routes are inefficient
+- No fill-level visibility
+- No predictive planning
+
+This project explores how low-cost sensing + simple optimization can improve that.
+
+---
+
+# Features
+
+## Smart Bin Prototype
+- Fill-level detection using ultrasonic sensor
+- Three-state alert logic:
   - Normal
   - Warning
   - Overflow
+- Green/Red LED indicators
+- Buzzer overflow alert
 
 ---
 
-## Components Used
-- Arduino Uno  
-- HC-SR04 Ultrasonic Sensor  
-- 2 LEDs (Green and Red)  
-- Piezo Buzzer  
-- 220Ω Resistors  
+## Backend Intelligence (Version 2)
+- Pickup prioritization algorithm
+- Route scoring heuristic
+- Fill overflow prediction
+- Sensor anomaly detection
+- Bin data logging (CSV)
+- Flask REST API
+- Web dashboard
+
+---
+
+# Components Used
+
+Hardware:
+- Arduino Uno
+- HC-SR04 Ultrasonic Sensor
+- 2 LEDs
+- Piezo Buzzer
+- 220Ω Resistors
 - Breadboard + Jumper Wires
 
+Software:
+- Arduino C/C++
+- Python
+- Flask
+- Tinkercad
+- Git/GitHub
+
 ---
 
-## Working Logic
+# Bin Logic
 
-Distance-based monitoring:
+Distance Thresholds:
 
 ```text
-> 20 cm   → Normal (Green LED)
+> 20 cm   → Normal
 
-10–20 cm  → Warning (Red LED)
+10–20 cm  → Warning
 
-< 10 cm   → Overflow (Red LED + Buzzer)
+< 10 cm   → Overflow
 ```
 
 ---
 
-## Prototype Validation Results
+# Optimization Logic
 
-### Normal State
+Pickup priority uses:
+
+Priority Score:
+
+score = fill % / distance
+
+Higher score = higher pickup priority.
+
+---
+
+# Overflow Prediction
+
+Uses simple prediction:
+
+time_to_full =
+(100-current_fill) / growth_rate
+
+Used to estimate when a bin may overflow.
+
+---
+
+# REST API Endpoints
+
+Available routes:
+
+```text
+/bins
+/pickup-priority
+/predict/<fill>/<growth>
+/dashboard
+/anomaly-check/<fill>
+```
+
+---
+
+# Dashboard Demo
+
+Web dashboard shows:
+
+- Bin fill %
+- Status
+- Overflow conditions
+
+Example:
+
+```text
+Bin A 95% OVERFLOW
+Bin B 82% FULL
+Bin C 90% FULL
+```
+
+---
+
+# Prototype Validation
+
+## Normal State
 ![Normal](images/bin-normal.png)
 
----
-
-### Warning State
+## Warning State
 ![Warning](images/bin-warning.png)
 
----
-
-### Overflow Alert
+## Overflow State
 ![Overflow](images/bin-overflow.png)
 
 ---
 
-## Circuit Overview
+# Project Structure
 
 ```text
-Ultrasonic Sensor
-   ↓
-Arduino Uno
-   ↓
-Status Alerts
-(LEDs + Buzzer)
-```
-
----
-
-## Project Structure
-
-```text
-smart-waste-management-iot/
+smart-bin-monitoring-system/
+├── backend/
+│   ├── app.py
+│   ├── route_optimizer.py
+│   ├── fill_prediction.py
+│
 ├── firmware/
 ├── hardware/
+├── datasets/
 ├── images/
-├── docs/
 └── README.md
 ```
 
 ---
 
-## How It Works
-The ultrasonic sensor measures the distance from the sensor to the garbage level.
+# Run Locally
 
-Distance is used to determine whether the bin is:
-- Empty/Normal
-- Near Full
-- Overflowing
+## Flask Backend
 
-Alerts are triggered automatically based on threshold values.
+```bash
+pip install -r backend/requirements.txt
+python backend/app.py
+```
 
----
+Visit:
 
-## Future Improvements
-Planned upgrades:
-- IoT dashboard monitoring
-- Smart pickup alerts
-- Route optimization for collection vehicles
-- Fill-level prediction
+```text
+http://127.0.0.1:5000/dashboard
+```
 
 ---
 
-## Tech Used
-- Arduino C/C++
-- Tinkercad Simulation
-- Git + GitHub
+## Tinkercad Simulation
+
+1 Open circuit
+
+2 Upload:
+
+```text
+hardware/tinkercad/tinkercad_test.ino
+```
+
+3 Start simulation
+
+4 Move object to simulate waste fill level.
 
 ---
 
-## Run in Tinkercad
-1. Open Tinkercad circuit
-2. Upload tinkercad_test.ino
-3. Start simulation
-4. Move object to change fill level
+# Future Scope
+Potential next upgrades:
+- Live MQTT sensor telemetry
+- Multi-bin fleet simulation
+- Route optimization using OR-Tools
+- GPS-enabled smart bins
+- ML-based fill forecasting
 
 ---
 
-## Why I Built This
-This project was built as a small smart-city/IoT prototype to explore sensor-based automation and waste monitoring.
+# Why This Project
+This project combines:
+
+- Embedded Systems  
+- IoT  
+- Basic Optimization  
+- Backend APIs  
+- Smart-city concepts
+
+Built as both a learning project and scalable prototype.
 
 ---
-
-## Author
-Smruthi Nayak  
+Author:
+Smruthi Nayak
 BTech CSE (IoT)
-
