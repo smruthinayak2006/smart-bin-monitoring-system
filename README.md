@@ -151,19 +151,33 @@ smart-bin-monitoring-system/
 │   └── requirements.txt
 │
 ├── dashboard/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
 │
 ├── firmware/
+│   ├── platformio.ini
+│   └── src/
+│       └── main.cpp
 │
 ├── hardware/
+│   ├── components-list.md
 │   └── tinkercad/
+│       └── tinkercad_test.ino
 │
 ├── datasets/
+│   └── sample_fill_data.csv
 │
 ├── docs/
 │   └── threat-model.md
 │
 ├── images/
+│   ├── bin-normal.png
+│   ├── bin-warning.png
+│   ├── bin-overflow.png
+│   └── dashboard-ui.png
 │
+├── .gitignore
 ├── README.md
 └── LICENSE
 ```
