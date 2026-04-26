@@ -6,19 +6,19 @@ app=Flask(__name__)
 bins=[
 {
 "id":"A",
-"fill":95,
+"fill":50,
 "distance":5
 },
 
 {
 "id":"B",
-"fill":82,
+"fill":60,
 "distance":1
 },
 
 {
 "id":"C",
-"fill":90,
+"fill":99,
 "distance":4
 }
 ]
@@ -81,39 +81,43 @@ round(hours,2)
 @app.route("/dashboard")
 def dashboard():
 
-    html = """
-    <html>
-    <head>
-    <title>Smart Waste Dashboard</title>
-    </head>
+    rows=""
 
+    for b in bins:
+
+        if b["fill"]>=95:
+            status="OVERFLOW"
+
+        elif b["fill"]>=80:
+            status="FULL"
+
+        else:
+            status="NORMAL"
+
+
+        rows += f"""
+        <tr>
+         <td>{b['id']}</td>
+         <td>{b['fill']}</td>
+         <td>{status}</td>
+        </tr>
+        """
+
+
+    html=f"""
+    <html>
     <body>
+
     <h1>Smart Waste Dashboard</h1>
 
-    <table border="1" cellpadding="10">
-      <tr>
-       <th>Bin</th>
-       <th>Fill %</th>
-       <th>Status</th>
-      </tr>
+    <table border='1' cellpadding='10'>
+    <tr>
+      <th>Bin</th>
+      <th>Fill%</th>
+      <th>Status</th>
+    </tr>
 
-      <tr>
-       <td>A</td>
-       <td>95</td>
-       <td>OVERFLOW</td>
-      </tr>
-
-      <tr>
-       <td>B</td>
-       <td>82</td>
-       <td>FULL</td>
-      </tr>
-
-      <tr>
-       <td>C</td>
-       <td>90</td>
-       <td>FULL</td>
-      </tr>
+    {rows}
 
     </table>
 
