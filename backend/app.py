@@ -1,162 +1,86 @@
-import csv
+from flask import Flask,jsonify
+
+app=Flask(__name__)
 
 
-def pickup_optimizer():
+bins=[
+{
+"id":"A",
+"fill":95,
+"distance":5
+},
 
-    bins = {}
-    records = []
+{
+"id":"B",
+"fill":82,
+"distance":1
+},
 
-    n = int(
-        input("Number of bins: ")
+{
+"id":"C",
+"fill":90,
+"distance":4
+}
+]
+
+
+@app.route("/")
+def home():
+
+    return "Smart Waste Backend API Running"
+
+
+
+@app.route("/bins")
+def get_bins():
+
+    return jsonify(
+        bins
     )
 
 
-    for i in range(n):
 
-        name = input(
-f"Bin {i+1} name: "
-        ).strip()
+@app.route("/pickup-priority")
+def priority():
 
-
-        fill = int(
-input("Fill %: ")
-        )
-
-        if fill < 0:
-            fill = 0
-
-        if fill > 100:
-            fill = 100
-
-
-        distance = float(
-input("Distance km: ")
-        )
-
-        if distance <= 0:
-            distance = 0.1
-
-
-        score = fill / distance
-
-
-        bins[name] = score
-
-
-        records.append(
-            [
-             name,
-             fill,
-             distance,
-             round(score,2)
-            ]
-        )
-
-
-
-    # Save run data
-    with open(
-        "datasets/bin_log.csv",
-        "w",
-        newline=""
-    ) as file:
-
-        writer = csv.writer(file)
-
-        writer.writerow(
-["Bin","Fill","Distance","PriorityScore"]
-        )
-
-        writer.writerows(
-            records
-        )
-
-
-
-    ranked = sorted(
-        bins.items(),
-        key=lambda x:x[1],
+    ranked=sorted(
+        bins,
+        key=lambda x:
+        x["fill"]/x["distance"],
         reverse=True
     )
 
-
-    print("\nOptimized Pickup Order")
-    print("----------------------")
-
-    for i,b in enumerate(
-        ranked,
-        1
-    ):
-        print(
-f"{i}. {b[0]}"
-        )
-
-    print(
-"\nBin data saved to datasets/bin_log.csv"
+    return jsonify(
+        ranked
     )
 
 
 
-def fill_prediction():
-
-    current = float(
-input("Current Fill %: ")
-    )
-
-    growth = float(
-input("Growth/hour %: ")
-    )
-
-
-    if current >=100:
-        print(
-"Bin already full."
-        )
-        return
-
+@app.route("/predict/<int:fill>/<int:growth>")
+def predict(
+fill,
+growth
+):
 
     if growth<=0:
-        print(
-"Invalid growth."
+        return jsonify(
+{"error":"invalid growth"}
         )
-        return
 
-
-    hours = (
-      100-current
+    hours=(
+      100-fill
     )/growth
 
-
-    print(
-f"\nPredicted overflow in {hours:.2f} hours"
+    return jsonify(
+{
+"overflow_in_hours":
+round(hours,2)
+}
     )
 
 
 
-while True:
-
-    print("\nSMART WASTE BACKEND")
-    print("-------------------")
-    print("1 Pickup Optimizer")
-    print("2 Fill Prediction")
-    print("3 Exit")
-
-
-    choice = input(
-"Choose option: "
-    )
-
-
-    if choice=="1":
-        pickup_optimizer()
-
-    elif choice=="2":
-        fill_prediction()
-
-    elif choice=="3":
-        break
-
-    else:
-        print(
-"Invalid choice"
-        )
+if __name__=="__main__":
+ app.run(
+ debug=True
+ )
