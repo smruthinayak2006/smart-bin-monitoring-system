@@ -40,6 +40,8 @@ This project explores how low-cost sensing + simple optimization can improve tha
 - Bin data logging (CSV)
 - Flask REST API
 - Web dashboard
+- Interactive frontend monitoring dashboard
+- Simulated live telemetry visualization
 
 ---
 
@@ -141,6 +143,14 @@ Bin C 90% FULL
 
 ## Overflow State
 ![Overflow](images/bin-overflow.png)
+
+---
+
+## Dashboard Preview
+
+Interactive monitoring dashboard with live simulated telemetry.
+
+![Dashboard](images/dashboard-ui.png)
 
 ---
 

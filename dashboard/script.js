@@ -17,7 +17,4 @@ value+"%";
 
 }
 
-setInterval(
-updateBars,
-3000
-);
+setInterval(updateBars,3000);
