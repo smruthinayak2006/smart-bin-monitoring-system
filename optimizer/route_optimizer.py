@@ -1,76 +1,67 @@
-bins={}
+bins = {}
 
-n=int(
-input("Number of bins: ")
-)
+n = int(input("Number of bins: "))
 
 for i in range(n):
 
-    name=input(
-f"Bin {i+1} name: "
-)
+    name = input(
+        f"Bin {i+1} name: "
+    )
 
-    fill=int(
-input("Fill percentage: ")
-)
+    fill = int(
+        input("Fill percentage: ")
+    )
 
-    distance=float(
-input("Distance from depot (km): ")
-)
+    distance = float(
+        input("Distance from depot (km): ")
+    )
 
-    bins[name]={
-        "fill":fill,
-        "distance":distance
+    if distance <= 0:
+        distance = 0.1
+
+    bins[name] = {
+        "fill": fill,
+        "distance": distance
     }
 
 
-threshold=80
-
-pickup=[]
+threshold = 80
+pickup = []
 
 
 for name,data in bins.items():
 
-    if data["fill"]>=threshold:
+    if data["fill"] >= threshold:
+
+        score = (
+            data["fill"] /
+            data["distance"]
+        )
 
         pickup.append(
             (
-             name,
-             data["fill"],
-             data["distance"]
+                name,
+                data["fill"],
+                data["distance"],
+                score
             )
         )
 
 
-# Sort by highest fill first
 pickup.sort(
-key=lambda x:x[1],
-reverse=True
+    key=lambda x:x[3],
+    reverse=True
 )
 
 
-print("\nPickup Priority")
-print("----------------")
+print("\nOptimized Pickup Route")
+print("---------------------")
+
 
 for i,b in enumerate(
-pickup,
-1
+    pickup,
+    1
 ):
- print(
-f"{i}. {b[0]} Fill:{b[1]}%"
- )
-
-
-# Route suggestion
-route=sorted(
-pickup,
-key=lambda x:x[2]
-)
-
-print("\nSuggested Route")
-print("----------------")
-
-for stop in route:
     print(
-f"{stop[0]} ({stop[2]} km)"
+f"{i}. {b[0]} | Fill:{b[1]}% | Distance:{b[2]} km | Score:{b[3]:.2f}"
 )
