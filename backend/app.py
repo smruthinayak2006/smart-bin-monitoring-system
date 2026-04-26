@@ -78,7 +78,50 @@ round(hours,2)
 }
     )
 
+@app.route("/dashboard")
+def dashboard():
 
+    html = """
+    <html>
+    <head>
+    <title>Smart Waste Dashboard</title>
+    </head>
+
+    <body>
+    <h1>Smart Waste Dashboard</h1>
+
+    <table border="1" cellpadding="10">
+      <tr>
+       <th>Bin</th>
+       <th>Fill %</th>
+       <th>Status</th>
+      </tr>
+
+      <tr>
+       <td>A</td>
+       <td>95</td>
+       <td>OVERFLOW</td>
+      </tr>
+
+      <tr>
+       <td>B</td>
+       <td>82</td>
+       <td>FULL</td>
+      </tr>
+
+      <tr>
+       <td>C</td>
+       <td>90</td>
+       <td>FULL</td>
+      </tr>
+
+    </table>
+
+    </body>
+    </html>
+    """
+
+    return html 
 
 if __name__=="__main__":
  app.run(
