@@ -1,29 +1,51 @@
-bins = {
-"A":95,
-"B":42,
-"C":87,
-"D":20
-}
+bins={}
 
-threshold = 80
+n=int(
+input("Number of bins: ")
+)
 
-full_bins=[]
+for i in range(n):
+
+    name=input(
+f"Bin {i+1} name: "
+)
+
+    fill=int(
+input("Fill percentage: ")
+)
+
+    bins[name]=fill
+
+
+threshold=80
+
+pickup=[]
 
 for bin_id,fill in bins.items():
 
     if fill>=threshold:
-        full_bins.append(
+        pickup.append(
             (bin_id,fill)
         )
 
-full_bins.sort(
+
+pickup.sort(
 key=lambda x:x[1],
 reverse=True
 )
 
+
 print("\nPickup Priority:\n")
 
-for i,bin_data in enumerate(full_bins,1):
-    print(
-f"{i}. Bin {bin_data[0]} ({bin_data[1]}%)"
+if len(pickup)==0:
+    print("No bins require pickup")
+
+else:
+
+    for i,b in enumerate(
+        pickup,
+        1
+    ):
+        print(
+f"{i}. Bin {b[0]} ({b[1]}%)"
 )
