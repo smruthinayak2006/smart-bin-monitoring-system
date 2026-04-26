@@ -1,72 +1,71 @@
 # Smart Bin Monitoring System 🚮
 
-An IoT and software prototype for monitoring waste bins, prioritizing pickups, predicting overflow, and visualizing bin status through a lightweight backend dashboard.
+An IoT + software prototype for monitoring waste-bin fill levels, prioritizing pickups, predicting overflow, and visualizing bin status through a lightweight dashboard.
 
-Built as an embedded + backend smart-city prototype.
+Built as a smart-city prototype combining embedded systems and backend intelligence.
 
 ---
 
 ## Problem
 
-Traditional waste collection is reactive:
+Traditional waste collection is mostly reactive:
 
-- Bins overflow before collection
-- Pickup routes are inefficient
-- No fill-level visibility
-- No predictive planning
+- Bins overflow before collection  
+- Pickup routes are inefficient  
+- No real-time fill visibility  
+- No predictive planning  
 
-This project explores how low-cost sensing + simple optimization can improve that.
+This project explores how low-cost sensing and simple optimization can improve waste monitoring.
 
 ---
 
 # Features
 
 ## Smart Bin Prototype
-- Fill-level detection using ultrasonic sensor
+- Ultrasonic fill-level detection  
 - Three-state alert logic:
   - Normal
   - Warning
   - Overflow
-- Green/Red LED indicators
-- Buzzer overflow alert
+- Green/Red LED indicators  
+- Overflow buzzer alert  
 
 ---
 
-## Backend Intelligence (Version 2)
-- Pickup prioritization algorithm
-- Route scoring heuristic
-- Fill overflow prediction
-- Sensor anomaly detection
-- Bin data logging (CSV)
-- Flask REST API
-- Web dashboard
-- Interactive frontend monitoring dashboard
-- Simulated live telemetry visualization
+## Backend & Analytics
+- Pickup prioritization algorithm  
+- Fill-level scoring heuristic  
+- Overflow prediction  
+- Sensor anomaly detection  
+- Bin data logging (CSV)  
+- Flask REST API  
+- Interactive monitoring dashboard  
+- Simulated live telemetry visualization  
 
 ---
 
 # Components Used
 
-Hardware:
-- Arduino Uno
-- HC-SR04 Ultrasonic Sensor
-- 2 LEDs
-- Piezo Buzzer
-- 220Ω Resistors
-- Breadboard + Jumper Wires
+## Hardware
+- Arduino Uno  
+- HC-SR04 Ultrasonic Sensor  
+- Green and Red LEDs  
+- Piezo Buzzer  
+- 220Ω Resistors  
+- Breadboard + Jumper Wires  
 
-Software:
-- Arduino C/C++
-- Python
-- Flask
-- Tinkercad
-- Git/GitHub
+## Software
+- Arduino C/C++  
+- Python  
+- Flask  
+- Tinkercad  
+- Git & GitHub  
 
 ---
 
 # Bin Logic
 
-Distance Thresholds:
+Distance thresholds:
 
 ```text
 > 20 cm   → Normal
@@ -78,32 +77,31 @@ Distance Thresholds:
 
 ---
 
-# Optimization Logic
+# Pickup Optimization Logic
 
-Pickup priority uses:
+Priority score:
 
-Priority Score:
-
+```text
 score = fill % / distance
+```
 
-Higher score = higher pickup priority.
+Higher score → higher pickup priority.
 
 ---
 
 # Overflow Prediction
 
-Uses simple prediction:
+Estimated time-to-full:
 
-time_to_full =
-(100-current_fill) / growth_rate
+```text
+(100 - current_fill) / growth_rate
+```
 
-Used to estimate when a bin may overflow.
+Used to predict possible overflow.
 
 ---
 
 # REST API Endpoints
-
-Available routes:
 
 ```text
 /bins
@@ -111,24 +109,6 @@ Available routes:
 /predict/<fill>/<growth>
 /dashboard
 /anomaly-check/<fill>
-```
-
----
-
-# Dashboard Demo
-
-Web dashboard shows:
-
-- Bin fill %
-- Status
-- Overflow conditions
-
-Example:
-
-```text
-Bin A 95% OVERFLOW
-Bin B 82% FULL
-Bin C 90% FULL
 ```
 
 ---
@@ -141,16 +121,21 @@ Bin C 90% FULL
 ## Warning State
 ![Warning](images/bin-warning.png)
 
-## Overflow State
+## Overflow Alert
 ![Overflow](images/bin-overflow.png)
 
 ---
 
-## Dashboard Preview
+# Dashboard Preview
 
-Interactive monitoring dashboard with live simulated telemetry.
+Interactive monitoring dashboard:
 
 ![Dashboard](images/dashboard-ui.png)
+
+Includes:
+- Fill percentage monitoring  
+- Status indicators  
+- Simulated live telemetry  
 
 ---
 
@@ -158,30 +143,43 @@ Interactive monitoring dashboard with live simulated telemetry.
 
 ```text
 smart-bin-monitoring-system/
+│
 ├── backend/
 │   ├── app.py
 │   ├── route_optimizer.py
 │   ├── fill_prediction.py
+│   └── requirements.txt
+│
+├── dashboard/
 │
 ├── firmware/
+│
 ├── hardware/
+│   └── tinkercad/
+│
 ├── datasets/
+│
+├── docs/
+│   └── threat-model.md
+│
 ├── images/
-└── README.md
+│
+├── README.md
+└── LICENSE
 ```
 
 ---
 
 # Run Locally
 
-## Flask Backend
+## Start Backend
 
 ```bash
 pip install -r backend/requirements.txt
 python backend/app.py
 ```
 
-Visit:
+Open:
 
 ```text
 http://127.0.0.1:5000/dashboard
@@ -189,44 +187,60 @@ http://127.0.0.1:5000/dashboard
 
 ---
 
-## Tinkercad Simulation
+## Run Tinkercad Simulation
 
-1 Open circuit
-
-2 Upload:
+1. Open the circuit  
+2. Upload:
 
 ```text
 hardware/tinkercad/tinkercad_test.ino
 ```
 
-3 Start simulation
-
-4 Move object to simulate waste fill level.
+3. Start simulation  
+4. Move object to simulate changing bin fill level  
 
 ---
 
 # Future Scope
-Potential next upgrades:
-- Live MQTT sensor telemetry
-- Multi-bin fleet simulation
-- Route optimization using OR-Tools
-- GPS-enabled smart bins
-- ML-based fill forecasting
+
+Possible upgrades:
+- Live MQTT sensor telemetry  
+- Multi-bin fleet simulation  
+- Route optimization using OR-Tools  
+- GPS-enabled smart bins  
+- ML-based fill forecasting  
+
+---
+
+# Security Considerations
+
+Threats considered:
+- Sensor spoofing  
+- MQTT tampering  
+- Device cloning  
+
+Basic mitigations documented in:
+
+```text
+docs/threat-model.md
+```
 
 ---
 
 # Why This Project
+
 This project combines:
 
 - Embedded Systems  
 - IoT  
-- Basic Optimization  
+- Optimization  
 - Backend APIs  
-- Smart-city concepts
+- Smart-city concepts  
 
-Built as both a learning project and scalable prototype.
+Built as both a learning project and a scalable prototype.
 
 ---
-Author:
-Smruthi Nayak
+
+## Author
+Smruthi Nayak  
 BTech CSE (IoT)
