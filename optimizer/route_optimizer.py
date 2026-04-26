@@ -14,38 +14,63 @@ f"Bin {i+1} name: "
 input("Fill percentage: ")
 )
 
-    bins[name]=fill
+    distance=float(
+input("Distance from depot (km): ")
+)
+
+    bins[name]={
+        "fill":fill,
+        "distance":distance
+    }
 
 
 threshold=80
 
 pickup=[]
 
-for bin_id,fill in bins.items():
 
-    if fill>=threshold:
+for name,data in bins.items():
+
+    if data["fill"]>=threshold:
+
         pickup.append(
-            (bin_id,fill)
+            (
+             name,
+             data["fill"],
+             data["distance"]
+            )
         )
 
 
+# Sort by highest fill first
 pickup.sort(
 key=lambda x:x[1],
 reverse=True
 )
 
 
-print("\nPickup Priority:\n")
+print("\nPickup Priority")
+print("----------------")
 
-if len(pickup)==0:
-    print("No bins require pickup")
+for i,b in enumerate(
+pickup,
+1
+):
+ print(
+f"{i}. {b[0]} Fill:{b[1]}%"
+ )
 
-else:
 
-    for i,b in enumerate(
-        pickup,
-        1
-    ):
-        print(
-f"{i}. Bin {b[0]} ({b[1]}%)"
+# Route suggestion
+route=sorted(
+pickup,
+key=lambda x:x[2]
+)
+
+print("\nSuggested Route")
+print("----------------")
+
+for stop in route:
+    print(
+f"{stop[0]} ({stop[2]} km)"
 )
