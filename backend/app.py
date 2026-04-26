@@ -110,11 +110,12 @@ def dashboard():
 
     <h1>Smart Waste Dashboard</h1>
 
-    <table border='1' cellpadding='10'>
+    <table border='1' cellpadding='12' style='border-collapse:collapse;'>
+
     <tr>
-      <th>Bin</th>
-      <th>Fill%</th>
-      <th>Status</th>
+    <th>Bin ID</th>
+    <th>Fill %</th>
+    <th>Status</th>
     </tr>
 
     {rows}
@@ -126,6 +127,26 @@ def dashboard():
     """
 
     return html 
+
+@app.route("/anomaly-check/<int:fill>")
+def anomaly(fill):
+
+    if fill < 0 or fill > 100:
+        return {
+          "status":"anomaly",
+          "reason":"invalid sensor reading"
+        }
+
+    elif fill > 98:
+        return {
+         "status":"warning",
+         "reason":"possible overflow"
+        }
+
+    else:
+        return {
+         "status":"normal"
+        }
 
 if __name__=="__main__":
  app.run(
